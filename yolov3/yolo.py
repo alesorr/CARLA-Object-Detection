@@ -3,9 +3,14 @@
 import cv2
 import numpy as np
 
+PATHDICT = {
+    'alex': "yolov3/",
+    'daniele' : "C:/Users/danis/Desktop/AutonomousVehicleDriving/Carla/python_client_folder/CARLA-obstacle-detection/yolov3/",
+    'christian' : "",
+    'francesco' : ""
+}
 
-PATH = "C:/Users/danis/Desktop/AutonomousVehicleDriving/Carla/python_client_folder/CARLA-obstacle-detection/yolov3/"
-
+PATH = PATHDICT['alex']
 
 class Yolo:
 
@@ -54,12 +59,9 @@ class Yolo:
                     width = int(detection[2]* frameWidth)
                     height = int(detection[3]*frameHeight )
 
-                    left = int(centerX - width/2)
-                    top = int(centerY - height/2)
-
                     classIDs.append(classID)
                     confidences.append(float(confidence))
-                    boxes.append([left, top, width, height])
+                    boxes.append([centerX, centerY, width, height])
 
         # create a list of indices
         indices = cv2.dnn.NMSBoxes(boxes, confidences, self.confThreshold, self.nmsThreshold)
@@ -74,7 +76,7 @@ class Yolo:
             
             self.drawPred(classIDs[i], confidences[i], left, top, left + width, top + height, frame, frameWidth)
 
-            return box
+            return classIDs[i][0], box
 
     def get_optimal_font_scale(self, text, width):
         for scale in reversed(range(0, 60, 1)):
