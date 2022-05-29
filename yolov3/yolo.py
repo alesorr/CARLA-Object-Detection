@@ -76,7 +76,7 @@ class Yolo:
             
             self.drawPred(classIDs[i], confidences[i], left, top, left + width, top + height, frame, frameWidth)
 
-            return classIDs[i][0], box
+            return box
 
     def get_optimal_font_scale(self, text, width):
         for scale in reversed(range(0, 60, 1)):

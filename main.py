@@ -22,6 +22,8 @@ import json
 from math import sin, cos, pi, tan, sqrt
 
 from yolov3.yolo import Yolo
+from lane_detection import LaneDetection
+
 
 # Script level imports
 sys.path.append(os.path.abspath(sys.path[0] + '/..'))
@@ -134,6 +136,8 @@ camera_parameters['roll'] = 0
 # YOLO NET
 yoloNet = Yolo()
 
+# LANE DETECTION
+laneDetection = LaneDetection()
 
 def rotate_x(angle):
     R = np.mat([[ 1,         0,           0],
@@ -260,7 +264,14 @@ def check_for_obstacles(sensor_data):
         # Camera BGR data
         image_BGR = to_bgra_array(sensor_data["CameraRGB"])
 
-        image_RGB = cv2.cvtColor(image_BGR, cv2.COLOR_BGR2RGB)
+        # LANE DETECTION
+        lane_image, lines = laneDetection.lane_detection(image_BGR, True, True)
+
+        # estrarre solo la propria carreggiata e passarla all'obj detection
+        # ...
+
+        # quindi passo immagine carreggiata
+        image_RGB = cv2.cvtColor(lane_image, cv2.COLOR_BGR2RGB)
 
         if (image_RGB.shape) > (300, 300):
             cropped_frame = cv2.resize(image_RGB, (300, 300))
@@ -312,7 +323,7 @@ def compute_depth(segmentation_data, depth_data, box):
     if (top_left_y < 0): top_left_y = 0
     if ( bottom_right_y < 0):  bottom_right_y = 0
 
-    print(top_left_x, bottom_right_x, top_left_y, bottom_right_y)
+    #print(top_left_x, bottom_right_x, top_left_y, bottom_right_y)
 
     #check if the bounding box contains the obstacle
     found=False
