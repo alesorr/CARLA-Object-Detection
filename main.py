@@ -263,15 +263,23 @@ def check_for_obstacles(sensor_data):
     if sensor_data.get("CameraRGB", None) is not None:
         # Camera BGR data
         image_BGR = to_bgra_array(sensor_data["CameraRGB"])
-
+        
         # LANE DETECTION
         lane_image, lines = laneDetection.lane_detection(image_BGR, True, True)
 
         # estrarre solo la propria carreggiata e passarla all'obj detection
         # ...
+        if lines is not None and len(lines) == 2:
+            x1,y1,x2,y2 = lines[0].reshape(4)
+            x3,y3,x4,y4 = lines[1].reshape(4)
+
+            image_BGR[x1 : x1 + x3, y3: y3 + y4] # extract ROI 
+            cv2.imshow("ROI", image_BGR)
+        elif lines is not None and len(lines) == 1:
+            pass
 
         # quindi passo immagine carreggiata
-        image_RGB = cv2.cvtColor(lane_image, cv2.COLOR_BGR2RGB)
+        image_RGB = cv2.cvtColor(image_BGR, cv2.COLOR_BGR2RGB)
 
         if (image_RGB.shape) > (300, 300):
             cropped_frame = cv2.resize(image_RGB, (300, 300))
