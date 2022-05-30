@@ -35,7 +35,6 @@ class Yolo:
         cv2.namedWindow(self.winName, cv2.WINDOW_NORMAL)
         cv2.resizeWindow(self.winName, 300,300)
         
-
     def postprocess(self, frame, outs):
         frameHeight = frame.shape[0]
         frameWidth = frame.shape[1]

@@ -1199,7 +1199,7 @@ def exec_waypoint_nav_demo(args):
                     print("depth: ", depth)
                 
                 # Perform a state transition in the behavioural planner.
-                bp.transition_state(waypoints, ego_state, current_speed)
+                bp.transition_state(waypoints, ego_state, current_speed, depth)
 
                 # Check to see if we need to follow the lead vehicle.
                 thr_yaw = 0.05  # threshold on yaw chosed empirically

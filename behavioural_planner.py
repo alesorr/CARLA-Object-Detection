@@ -44,7 +44,7 @@ class BehaviouralPlanner:
         self._vehicles_fences = vehicles_fences
 
     # Handles state transitions and computes the goal state.
-    def transition_state(self, waypoints, ego_state, closed_loop_speed):
+    def transition_state(self, waypoints, ego_state, closed_loop_speed, depth):
         """Handles state transitions and computes the goal state.  
         
         args:
