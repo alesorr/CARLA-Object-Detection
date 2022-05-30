@@ -37,7 +37,6 @@ from carla.sensor import Camera
 from carla.image_converter import labels_to_array, depth_to_array, to_bgra_array
 from carla.planner.city_track import CityTrack
 
-
 ###############################################################################
 # CONFIGURABLE PARAMENTERS DURING EXAM
 ###############################################################################
@@ -263,6 +262,7 @@ def check_for_obstacles(sensor_data):
     if sensor_data.get("CameraRGB", None) is not None:
         # Camera BGR data
         image_BGR = to_bgra_array(sensor_data["CameraRGB"])
+        
         
         # LANE DETECTION
         lane_image, lines = laneDetection.lane_detection(image_BGR, True, True)
